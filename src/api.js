@@ -3,6 +3,7 @@ const serverless = require('serverless-http')
 const cors = require('cors')
 const server = express()
 const router = express.Router()
+let data = null
 
 server.use(express.urlencoded({ extended: false }))
 server.use(express.json())
@@ -39,8 +40,13 @@ router.get('/', function (req, res) {
   </html>`)
 })
 
-router.post('/send-data', function(req, res) {
-  res.json(req.body)
+router.get('/get-data', function (req, res) {
+  res.json(data)
+})
+
+router.post('/send-data', function (req, res) {
+  data = req.body
+  res.json(data)
 })
 
 server.use('/.netlify/functions/api', router)
